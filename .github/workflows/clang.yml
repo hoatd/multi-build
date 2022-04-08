@@ -27,7 +27,7 @@ jobs:
         elif [ "$RUNNER_OS" == "Windows" ]; then
           clang-cl helloworld.cpp -o helloworld -std=c++20 -O2
         else
-          echo "$RUNNER_OS not supported"
+          echo "$RUNNER_OS not supported build"
           exit 1
         fi
       shell: bash
@@ -41,9 +41,10 @@ jobs:
           helloworld
   
   release:
+    if: contains(github.ref, '/tags/')
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
     name: 'Release: ${{ matrix.os }}'
     runs-on: '${{ matrix.os }}'
     needs: [build]
@@ -53,18 +54,24 @@ jobs:
       - name: List everything
         run: |
           ls -al
-      - name: Package artifacts - linux
+      - name: Package artifacts
         run: |
-          cp ubuntu-latest/helloworld .
           tag=${{ github.event.ref }}
           tag=${tag#"refs/tags/"}
-          tar -zcvf helloworld-${tag}-amd64-linux.tar.gz helloworld
-      - name: Package artifacts - macos
-        run: |
-          cp macos-latest/helloworld .
-          tag=${{ github.event.ref }}
-          tag=${tag#"refs/tags/"}
-          tar -zcvf helloworld-${tag}-amd64-macos.tar.gz helloworld
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            cp ubuntu-latest/helloworld .
+            tar -zcvf helloworld-${tag}-amd64-linux.tar.gz helloworld
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            cp macos-latest/helloworld .
+            tar -zcvf helloworld-${tag}-amd64-macos.tar.gz helloworld
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            cp windows-latest/helloworld.exe .
+            zip helloworld-${tag}-amd64-windows.zip helloworld.exe
+          else
+            echo "$RUNNER_OS not supported release"
+            exit 1
+          fi
+        shell: bash
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
         with:
