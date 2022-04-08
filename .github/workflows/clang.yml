@@ -41,6 +41,7 @@ jobs:
         name: ${{ matrix.os }}
         path: |
           helloworld
+          helloworld.exe
   release:
     if: contains(github.ref, '/tags/')
     strategy:
