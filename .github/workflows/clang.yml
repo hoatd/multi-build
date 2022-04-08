@@ -68,7 +68,7 @@ jobs:
             tar -zcvf helloworld-${tag}-darwin-amd64.tar.gz helloworld
           elif [ "$RUNNER_OS" == "Windows" ]; then
             cp windows-latest/helloworld.exe .
-            zip helloworld-${tag}-windows-amd64.zip helloworld.exe
+            7z a -tzip helloworld-${tag}-windows-amd64.zip helloworld.exe
           else
             echo "$RUNNER_OS not supported release"
             exit 1
