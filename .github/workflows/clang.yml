@@ -5,7 +5,6 @@ on:
     branches: [ main ]
     tags:
       - "*"
-
 jobs:
   build:
     strategy:
@@ -30,16 +29,8 @@ jobs:
           echo "$RUNNER_OS not supported build"
           exit 1
         fi
+        ./helloworld
       shell: bash
-    - name: Run simple
-      run: ./helloworld
-    - name: Upload artifacs
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.os }}
-        path: |
-          helloworld
-  
   release:
     if: contains(github.ref, '/tags/')
     strategy:
@@ -60,14 +51,14 @@ jobs:
           if [ "$RUNNER_OS" == "Linux" ]; then
             cp ubuntu-latest/helloworld .
             chmod +x helloworld
-            tar -zcvf helloworld-${tag}-amd64-${os}.tar.gz helloworld
+            tar -zcvf helloworld-${tag}-${os}-amd64.tar.gz helloworld
           elif [ "$RUNNER_OS" == "macOS" ]; then
             cp macos-latest/helloworld .
             chmod +x helloworld
-            tar -zcvf helloworld-${tag}-amd64-${os}.tar.gz helloworld
+            tar -zcvf helloworld-${tag}-darwin-amd64.tar.gz helloworld
           elif [ "$RUNNER_OS" == "Windows" ]; then
             cp windows-latest/helloworld.exe .
-            zip helloworld-${tag}-amd64-${os}.zip helloworld.exe
+            zip helloworld-${tag}-${os}-amd64.zip helloworld.exe
           else
             echo "$RUNNER_OS not supported release"
             exit 1
