@@ -21,11 +21,11 @@ jobs:
         if [ "$RUNNER_OS" == "Linux" ]; then
           clang++ helloworld.cpp -o helloworld -std=c++20 -O2
           strip -s helloworld
-        elif [ "$RUNNER_OS" == "macOs" ]; then
+        elif [ "$RUNNER_OS" == "macOS" ]; then
           clang++ helloworld.cpp -o helloworld -std=c++20 -O2
           strip -x helloworld
         elif [ "$RUNNER_OS" == "Windows" ]; then
-              clang-cl helloworld.cpp -o helloworld -std=c++20 -O2
+          clang-cl helloworld.cpp -o helloworld -std=c++20 -O2
         else
           echo "$RUNNER_OS not supported"
           exit 1
