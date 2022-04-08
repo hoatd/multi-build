@@ -11,8 +11,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-    runs-on: '${{ matrix.os }}'
     name: 'Build: ${{ matrix.os }}'
+    runs-on: '${{ matrix.os }}'
     steps:
     - name: Checkout source
       uses: actions/checkout@v2
@@ -30,7 +30,10 @@ jobs:
           helloworld
   
   release:
-    name: Package release
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    name: 'Release: ${{ matrix.os }}'
     runs-on: '${{ matrix.os }}'
     needs: [build]
     steps:
@@ -44,7 +47,7 @@ jobs:
           cp ubuntu-latest/helloworld .
           tag=${{ github.event.ref }}
           tag=${tag#"refs/tags/"}
-          tar -zcvf helloworld-${tag}-x86_64-linux.tar.gz helloworld
+          tar -zcvf helloworld-${tag}-amd64-linux.tar.gz helloworld
       - name: Upload releases
         uses: softprops/action-gh-release@v1
         with:
