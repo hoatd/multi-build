@@ -26,7 +26,8 @@ jobs:
           strip -x helloworld
           ./helloworld
         elif [ "$RUNNER_OS" == "Windows" ]; then
-          clang-cl helloworld.cpp /o helloworld /std:c++20 /O2
+          #clang-cl helloworld.cpp /o helloworld /std:c++20 /O2
+          clang++ helloworld.cpp -o helloworld -std=c++20 -O2
           .\helloworld.exe
         else
           echo "$RUNNER_OS not supported build"
