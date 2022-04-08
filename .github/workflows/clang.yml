@@ -28,6 +28,7 @@ jobs:
         elif [ "$RUNNER_OS" == "Windows" ]; then
           #clang-cl helloworld.cpp /o helloworld /std:c++20 /O2
           clang++ helloworld.cpp -o helloworld.exe -std=c++20 -O2
+          dir
           .\helloworld.exe
         else
           echo "$RUNNER_OS not supported build"
