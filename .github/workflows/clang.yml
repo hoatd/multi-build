@@ -1,0 +1,29 @@
+name: C/C++ CI/CD
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - "*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: '${{ matrix.os }}'
+    name: 'Build: ${{ matrix.os }}'
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Build source
+      run: |
+        clang++ helloworld.cpp -o helloworld -std=c++20 -O2
+        strip -s helloworld
+    - name: Run simple
+      run: ./helloworld
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.os }}
+        path: |
+          helloworld
