@@ -18,8 +18,19 @@ jobs:
       uses: actions/checkout@v2
     - name: Build source
       run: |
-        clang++ helloworld.cpp -o helloworld -std=c++20 -O2
-        strip -s helloworld
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          clang++ helloworld.cpp -o helloworld -std=c++20 -O2
+          strip -s helloworld
+        elif [ "$RUNNER_OS" == "macOs" ]; then
+          clang++ helloworld.cpp -o helloworld -std=c++20 -O2
+          strip -x helloworld
+        elif [ "$RUNNER_OS" == "Windows" ]; then
+              clang-cl helloworld.cpp -o helloworld -std=c++20 -O2
+        else
+          echo "$RUNNER_OS not supported"
+          exit 1
+        fi
+      shell: bash
     - name: Run simple
       run: ./helloworld
     - name: Upload artifacs
