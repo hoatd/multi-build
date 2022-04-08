@@ -22,8 +22,34 @@ jobs:
         strip -s helloworld
     - name: Run simple
       run: ./helloworld
-    - uses: actions/upload-artifact@v2
+    - name: Upload artifacs
+      uses: actions/upload-artifact@v2
       with:
         name: ${{ matrix.os }}
         path: |
           helloworld
+  
+  release:
+    name: Package release
+    runs-on: '${{ matrix.os }}'
+    needs: [build]
+    steps:
+      - uses: actions/download-artifact@v2
+        name: Download artifacts
+      - name: List everything
+        run: |
+          ls -al
+      - name: Package
+        run: |
+          cp ubuntu-latest/helloworld .
+          tag=${{ github.event.ref }}
+          tag=${tag#"refs/tags/"}
+          tar -zcvf helloworld-${tag}-x86_64-linux.tar.gz helloworld
+      - name: Upload releases
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            helloworld-*.zip
+            helloworld-*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
