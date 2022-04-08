@@ -49,24 +49,25 @@ jobs:
     runs-on: '${{ matrix.os }}'
     needs: [build]
     steps:
-      - uses: actions/download-artifact@v2
-        name: Download artifacts
-      - name: List everything
-        run: |
-          ls -al
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
       - name: Package artifacts
         run: |
+          ls -al
+          os="${RUNNER_OS,,}"
           tag=${{ github.event.ref }}
           tag=${tag#"refs/tags/"}
           if [ "$RUNNER_OS" == "Linux" ]; then
             cp ubuntu-latest/helloworld .
-            tar -zcvf helloworld-${tag}-amd64-linux.tar.gz helloworld
+            chmod +x helloworld
+            tar -zcvf helloworld-${tag}-amd64-${os}.tar.gz helloworld
           elif [ "$RUNNER_OS" == "macOS" ]; then
             cp macos-latest/helloworld .
-            tar -zcvf helloworld-${tag}-amd64-macos.tar.gz helloworld
+            chmod +x helloworld
+            tar -zcvf helloworld-${tag}-amd64-${os}.tar.gz helloworld
           elif [ "$RUNNER_OS" == "Windows" ]; then
             cp windows-latest/helloworld.exe .
-            zip helloworld-${tag}-amd64-windows.zip helloworld.exe
+            zip helloworld-${tag}-amd64-${os}.zip helloworld.exe
           else
             echo "$RUNNER_OS not supported release"
             exit 1
