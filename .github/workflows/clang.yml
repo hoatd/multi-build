@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
     name: 'Build: ${{ matrix.os }}'
     runs-on: '${{ matrix.os }}'
     steps:
@@ -42,13 +42,19 @@ jobs:
       - name: List everything
         run: |
           ls -al
-      - name: Package
+      - name: Package artifacts - linux
         run: |
           cp ubuntu-latest/helloworld .
           tag=${{ github.event.ref }}
           tag=${tag#"refs/tags/"}
           tar -zcvf helloworld-${tag}-amd64-linux.tar.gz helloworld
-      - name: Upload releases
+      - name: Package artifacts - macos
+        run: |
+          cp macos-latest/helloworld .
+          tag=${{ github.event.ref }}
+          tag=${tag#"refs/tags/"}
+          tar -zcvf helloworld-${tag}-amd64-macos.tar.gz helloworld
+      - name: Upload artifacts
         uses: softprops/action-gh-release@v1
         with:
           files: |
