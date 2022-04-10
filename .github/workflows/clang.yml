@@ -40,6 +40,7 @@ jobs:
       with:
         name: ${{ matrix.os }}
         path: |
+          README.md
           helloworld
           helloworld.exe
   release:
@@ -60,14 +61,17 @@ jobs:
           tag=${tag#"refs/tags/"}
           if [ "$RUNNER_OS" == "Linux" ]; then
             cp ubuntu-latest/helloworld .
+            cp ubuntu-latest/README.md .
             chmod +x helloworld
             tar -zcvf helloworld-${tag}-linux-amd64.tar.gz helloworld README.md
           elif [ "$RUNNER_OS" == "macOS" ]; then
             cp macos-latest/helloworld .
+            cp macos-latest/README.md .
             chmod +x helloworld
             tar -zcvf helloworld-${tag}-darwin-amd64.tar.gz helloworld README.md
           elif [ "$RUNNER_OS" == "Windows" ]; then
             cp windows-latest/helloworld.exe .
+            cp windows-latest/README.md .
             7z a -tzip helloworld-${tag}-windows-amd64.zip helloworld.exe README.md
           else
             echo "$RUNNER_OS not supported release"
