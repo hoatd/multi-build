@@ -1,0 +1,10 @@
+name: arm64-linux-docker
+on: push
+jobs:
+  arm64-linux-docker:
+    runs-on: ubuntu-latest
+    container:
+      image: arm64v8:alpine
+    steps:
+    - name: Greeting
+      run: cat /etc/os-release
