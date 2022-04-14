@@ -6,7 +6,7 @@ on:
     tags:
       - "*"
 jobs:
-  build:
+  build-amd64:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -43,6 +43,37 @@ jobs:
           README.md
           helloworld
           helloworld.exe
+  build-arm64:
+    name: Build arm64 on ubuntu20.04
+    runs-on: ubuntu20.04
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Build source
+        uses: uraimo/run-on-arch-action@v2
+        id: build
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          githubToken: ${{ github.token }}
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+          shell: bash
+          install: |
+            apt update -y
+            apt upgrade -y
+            apt install clang -y
+          run: |
+            uname -a
+            clang++ --version
+      - name: Show the artifact
+        # Items placed in /artifacts in the container will be in
+        # ${PWD}/artifacts on the host.
+        run: |
+          ls -al "${PWD}/artifacts"
+
   release:
     if: contains(github.ref, '/tags/')
     strategy:
