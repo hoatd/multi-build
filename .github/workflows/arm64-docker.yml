@@ -4,7 +4,8 @@ jobs:
   arm64-linux-docker:
     runs-on: ubuntu-latest
     container:
-      image: arm64v8/alpine
+      image: arm64v8/alpine:latest
     steps:
     - name: Greeting
-      run: cat /etc/os-release
+      run: |
+        cat /etc/alpine-release
