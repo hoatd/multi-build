@@ -13,11 +13,11 @@ jobs:
       uses: actions/checkout@v2
     - name: Build source
       run: |
-          sudo apt-get install -y -qq gcc-x86_64-linux-gnu
+          sudo apt-get install -y -qq gcc-11-x86-64-linux-gnu
           x86_64-linux-gnu-g++ helloworld.cpp -o helloworld-amd64 -std=c++20 -O2
           x86_64-linux-gnu-strip -s helloworld
           file helloworld-amd64
-          sudo apt-get install -y -qq gcc-aarch64-linux-gnu
+          sudo apt-get install -y -qq gcc-11-aarch64-linux-gnu
           aarch64-linux-gnu-g++ helloworld.cpp -o helloworld-arm64 -std=c++20 -O2
           aarch64-linux-gnu-strip -s helloworld-arm64
           file helloworld-arm64
