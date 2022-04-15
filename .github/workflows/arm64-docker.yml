@@ -1,11 +1,22 @@
 name: arm64-linux-docker
 on: push
 jobs:
-  arm64-linux-docker:
+  build-on-aarch64:
     runs-on: ubuntu-latest
-    container:
-      image: arm64v8/alpine:latest
+    name: ci (arm64)
     steps:
-    - name: Greeting
-      run: |
-        cat /etc/alpine-release
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build in arm64 container
+        uses: uraimo/run-on-arch-action@v2.1.1
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          # Install deps into the container. With the token, the container will be cached
+          # The image is cached publically like a package
+          githubToken: ${{ github.token }}
+          install: |
+            clang++ --version
+          run: |
+            ls
+             .. run build steps on the container
