@@ -16,9 +16,9 @@ jobs:
           # The image is cached publically like a package
           githubToken: ${{ github.token }}
           install: |
-            apt-get update -y
-            apt-get upgrade -y
-            apt-get install -y git clang g++ lld
+            apt-get update -qy
+            apt-get upgrade -qy
+            apt-get install -qy git clang g++ lld
           run: |
             git --version
             g++ --version
