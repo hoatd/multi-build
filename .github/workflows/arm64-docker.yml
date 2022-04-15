@@ -16,7 +16,7 @@ jobs:
           # The image is cached publically like a package
           githubToken: ${{ github.token }}
           install: |
-            clang++ --version
+            apk add --no-cache bash dpkg git clang clang-dev gcc lld
           run: |
             ls
-             .. run build steps on the container
+            clang++ --version
