@@ -19,7 +19,7 @@ jobs:
             #apt-get install -qy git clang g++ lld
             apk update
             apk upgrade
-            apk add --no-cache clang clang-dev lld
+            apk add --no-cache g++ clang clang-dev lld
             #apk add lld
             #apk add musl-dev
           run: |
