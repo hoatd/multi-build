@@ -18,7 +18,7 @@ jobs:
           install: |
             apt-get update -y
             apt-get upgrade -y
-            apt-get install git clang gcc -y
+            apt-get install -y git clang g++ lld
           run: |
             git --version
             g++ --version
