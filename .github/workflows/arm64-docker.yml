@@ -11,16 +11,18 @@ jobs:
         uses: uraimo/run-on-arch-action@v2.1.1
         with:
           arch: aarch64
-          distro: ubuntu20.04
-          # Install deps into the container. With the token, the container will be cached
-          # The image is cached publically like a package
+          distro: alpine_latest
           githubToken: ${{ github.token }}
           install: |
-            apt-get update -qy
-            apt-get upgrade -qy
-            apt-get install -qy git clang g++ lld
+            #apt-get update -qy
+            #apt-get upgrade -qy
+            #apt-get install -qy git clang g++ lld
+            apk update
+            apk upgrade
+            apk add --no-cache clang clang-dev lld
+            #apk add lld
+            #apk add musl-dev
           run: |
-            git --version
-            g++ --version
-            clang++ --version
-            ls
+            ls -l
+            clang++ *.cpp -o helloworld -std=c++20
+            ls -l
