@@ -43,7 +43,7 @@ jobs:
           README.md
           helloworld
           helloworld.exe
-  build-arm64:
+  build-arm64-linux:
     runs-on: ubuntu-latest
     name: Build arm64
     steps:
@@ -89,6 +89,10 @@ jobs:
             cp ubuntu-latest/README.md .
             chmod +x helloworld
             tar -zcvf helloworld-${tag}-linux-amd64.tar.gz helloworld README.md
+            cp linux-arm64/helloworld .
+            cp linux-arm64/README.md .
+            chmod +x helloworld
+            tar -zcvf helloworld-${tag}-linux-arm64.tar.gz helloworld README.md
           elif [ "$RUNNER_OS" == "macOS" ]; then
             cp macos-latest/helloworld .
             cp macos-latest/README.md .
