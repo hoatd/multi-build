@@ -13,10 +13,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Build source
       run: |
-          sudo update-alternatives --remove-all gcc 
-          sudo update-alternatives --remove-all g++
-          sudo update-alternatives --remove-all cc
-          sudo update-alternatives --remove-all c++
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 100 --slave /usr/bin/c++ c++ /usr/bin/g++
           sudo apt-get -y -qq install g++-aarch64-linux-gnu          
