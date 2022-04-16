@@ -15,7 +15,7 @@ jobs:
       run: |
         sudo apt-get -y -q update && sudo apt-get -y -q upgrade
         sudo apt-get -y -q install g++-10-i686-linux-gnu
-        sudo apt-get -y -q install g++-10-arm-linux-gnu
+        sudo apt-get -y -q install g++-10-arm-linux-gnueabihf
         sudo apt-get -y -q install g++-10-aarch64-linux-gnu
         #
         ls -l /usr/bin | grep linux-gnu
