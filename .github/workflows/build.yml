@@ -55,6 +55,7 @@ jobs:
     - name: Build source
       run: |
         clang++ helloworld.cpp -o helloworld.exe -std=c++20 -O2
+        clang++ helloworld.cpp -o helloworld-i686.exe -std=c++20 -O2 -target i686-pc-win32 -Wl,-machine:x86
       shell: bash
     - name: Upload artifacs
       uses: actions/upload-artifact@v2
@@ -63,6 +64,7 @@ jobs:
         path: |
           README.md
           helloworld.exe
+          helloworld-i686.exe
   build-macos:
     name: 'Build macOS'
     runs-on: 'macos-latest'
@@ -134,7 +136,7 @@ jobs:
           cp macos-latest/README.md README.md
           cp macos-latest/helloworld helloworld
           chmod +x helloworld
-          tar -zcvf helloworld-${tag}-darwin-amd64.tar.gz helloworld README.md
+          tar -zcvf helloworld-${tag}-darwin.tar.gz helloworld README.md
         shell: bash
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
@@ -156,8 +158,12 @@ jobs:
           tag=${{ github.event.ref }}
           tag=${tag#"refs/tags/"}
           cp windows-latest/README.md README.md
+          #
           cp windows-latest/helloworld.exe helloworld.exe
-          7z a -tzip helloworld-${tag}-windows-amd64.zip helloworld.exe README.md
+          7z a -tzip helloworld-${tag}-win64-x86_64.zip helloworld.exe README.md
+          #
+          cp windows-latest/helloworld-686.exe helloworld.exe
+          7z a -tzip helloworld-${tag}-win32-i686.zip helloworld.exe README.md
         shell: bash
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
