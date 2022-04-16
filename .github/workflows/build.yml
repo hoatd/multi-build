@@ -48,7 +48,7 @@ jobs:
     - name: Upload artifacs
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.os }}
+        name: 'windows-latest'
         path: |
           README.md
           helloworld.exe
