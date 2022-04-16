@@ -24,17 +24,17 @@ jobs:
         i686-linux-gnu-strip -s helloworld-i686
         file helloworld-i686
         #
-        x86_64-linux-gnu-g++-10 helloworld.cpp -o helloworld-amd64 -std=c++20 -O2
-        x86_64-linux-gnu-strip -s helloworld-amd64
-        file helloworld-amd64
+        x86_64-linux-gnu-g++-10 helloworld.cpp -o helloworld-x86_64 -std=c++20 -O2
+        x86_64-linux-gnu-strip -s helloworld-x86_64
+        file helloworld-x86_64
         #
-        arm-linux-gnu-g++-10 helloworld.cpp -o helloworld-arm -std=c++20 -O2
-        arm-linux-gnu-strip -s helloworld-arm
+        arm-linux-gnueabihf-g++-10 helloworld.cpp -o helloworld-arm -std=c++20 -O2
+        arm-linux-gnueabihf-strip -s helloworld-arm
         file helloworld-arm
         #
-        aarch64-linux-gnu-g++-10 helloworld.cpp -o helloworld-arm64 -std=c++20 -O2
-        aarch64-linux-gnu-strip -s helloworld-arm64
-        file helloworld-arm64
+        aarch64-linux-gnu-g++-10 helloworld.cpp -o helloworld-aarch64 -std=c++20 -O2
+        aarch64-linux-gnu-strip -s helloworld-aarch64
+        file helloworld-aarch64
       shell: bash
     - name: Upload artifacs
       uses: actions/upload-artifact@v2
@@ -43,9 +43,9 @@ jobs:
         path: |
           README.md
           helloworld-i686
-          helloworld-amd64
+          helloworld-x86_64
           helloworld-arm
-          helloworld-arm64
+          helloworld-aarch64
   build-windows:
     name: 'Build Windows'
     runs-on: 'windows-latest'
@@ -100,17 +100,17 @@ jobs:
           chmod +x helloworld
           tar -zcvf helloworld-${tag}-linux-i686.tar.gz helloworld README.md
           #
-          cp ubuntu-latest/helloworld-amd64 helloworld
+          cp ubuntu-latest/helloworld-x86_64 helloworld
           chmod +x helloworld
-          tar -zcvf helloworld-${tag}-linux-amd64.tar.gz helloworld README.md
+          tar -zcvf helloworld-${tag}-linux-x86_64.tar.gz helloworld README.md
           #
           cp ubuntu-latest/helloworld-arm helloworld
           chmod +x helloworld
           tar -zcvf helloworld-${tag}-linux-arm.tar.gz helloworld README.md
           #
-          cp ubuntu-latest/helloworld-arm64 helloworld
+          cp ubuntu-latest/helloworld-aarch64 helloworld
           chmod +x helloworld
-          tar -zcvf helloworld-${tag}-linux-arm64.tar.gz helloworld README.md
+          tar -zcvf helloworld-${tag}-linux-aarch64.tar.gz helloworld README.md
         shell: bash
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
