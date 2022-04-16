@@ -13,22 +13,16 @@ jobs:
       uses: actions/checkout@v2
     - name: Build source
       run: |
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10 --slave /usr/bin/gcov gcov /usr/bin/gcov-10
-          sudo apt-get -y -qq install g++-aarch64-linux-gnu
-          #
-          x86_64-linux-gnu-g++ --version
-          x86_64-linux-gnu-g++ -v --help 2> /dev/null | sed -n '/^ *-std=\([^<][^ ]\+\).*/ {s//\1/p}'
-          aarch64-linux-gnu-g++ --version
-          aarch64-linux-gnu-g++ -v --help 2> /dev/null | sed -n '/^ *-std=\([^<][^ ]\+\).*/ {s//\1/p}'
+          sudo apt-get -y -qq install g++-10-aarch64-linux-gnu
           #
           ls -l /usr/bin | grep g\+\+
           #
           x86_64-linux-gnu-g++-10 helloworld.cpp -o helloworld-amd64 -std=c++20 -O2
-          x86_64-linux-gnu-strip-10 -s helloworld
+          x86_64-linux-gnu-strip -s helloworld
           file helloworld-amd64
           #
           aarch64-linux-gnu-g++-10 helloworld.cpp -o helloworld-arm64 -std=c++20 -O2
-          aarch64-linux-gnu-strip-10 -s helloworld-arm64
+          aarch64-linux-gnu-strip -s helloworld-arm64
           file helloworld-arm64
       shell: bash
     - name: Upload artifacs
