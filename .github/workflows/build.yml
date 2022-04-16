@@ -32,9 +32,17 @@ jobs:
         arm-linux-gnueabihf-strip -s helloworld-arm
         file helloworld-arm
         #
+        arm-linux-gnueabihf-g++-10 helloworld.cpp -o helloworld-arm-static -std=c++20 -O2 -static
+        arm-linux-gnueabihf-strip -s helloworld-arm-static
+        file helloworld-arm-static
+        #
         aarch64-linux-gnu-g++-10 helloworld.cpp -o helloworld-aarch64 -std=c++20 -O2
         aarch64-linux-gnu-strip -s helloworld-aarch64
         file helloworld-aarch64
+        #
+        aarch64-linux-gnu-g++-10 helloworld.cpp -o helloworld-aarch64-static -std=c++20 -O2 -static
+        aarch64-linux-gnu-strip -s helloworld-aarch64-static
+        file helloworld-aarch64-static
       shell: bash
     - name: Upload artifacs
       uses: actions/upload-artifact@v2
@@ -45,7 +53,9 @@ jobs:
           helloworld-i686
           helloworld-x86_64
           helloworld-arm
+          helloworld-arm-static
           helloworld-aarch64
+          helloworld-aarch64-static
   build-windows:
     name: 'Build Windows'
     runs-on: 'windows-latest'
@@ -113,6 +123,14 @@ jobs:
           cp ubuntu-latest/helloworld-aarch64 helloworld
           chmod +x helloworld
           tar -zcvf helloworld-${tag}-linux-aarch64.tar.gz helloworld README.md
+          #
+          cp ubuntu-latest/helloworld-arm-static helloworld
+          chmod +x helloworld
+          tar -zcvf helloworld-${tag}-android-arm.tar.gz helloworld README.md
+          #
+          cp ubuntu-latest/helloworld-aarch64-static helloworld
+          chmod +x helloworld
+          tar -zcvf helloworld-${tag}-android-aarch64.tar.gz helloworld README.md
         shell: bash
       - name: Upload artifacts
         uses: softprops/action-gh-release@v1
