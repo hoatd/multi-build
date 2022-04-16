@@ -14,7 +14,6 @@ jobs:
     - name: Build source
       run: |
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
-          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 100 --slave /usr/bin/c++ c++ /usr/bin/g++
           sudo apt-get -y -qq install g++-aarch64-linux-gnu          
           #
           x86_64-linux-gnu-g++ helloworld.cpp -o helloworld-amd64 -std=c++20 -O2
