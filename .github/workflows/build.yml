@@ -64,7 +64,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Build source
       run: |
-        clang++ helloworld.cpp -o helloworld.exe -std=c++20 -O2
+        clang++ helloworld.cpp -o helloworld-x86_64.exe -std=c++20 -O2 -target x86_64-pc-win32 -Wl,-machine:x64
         clang++ helloworld.cpp -o helloworld-i686.exe -std=c++20 -O2 -target i686-pc-win32 -Wl,-machine:x86
       shell: bash
     - name: Upload artifacs
@@ -73,8 +73,8 @@ jobs:
         name: 'windows-latest'
         path: |
           README.md
-          helloworld.exe
           helloworld-i686.exe
+          helloworld-x86_64.exe          
   build-macos:
     name: 'Build macOS'
     runs-on: 'macos-latest'
@@ -177,10 +177,10 @@ jobs:
           tag=${tag#"refs/tags/"}
           cp windows-latest/README.md README.md
           #
-          cp windows-latest/helloworld.exe helloworld.exe
+          cp windows-latest/helloworld-x86_64.exe helloworld.exe
           7z a -tzip helloworld-${tag}-win64-x86_64.zip helloworld.exe README.md
           #
-          cp windows-latest/helloworld-686.exe helloworld.exe
+          cp windows-latest/helloworld-i686.exe helloworld.exe
           7z a -tzip helloworld-${tag}-win32-i686.zip helloworld.exe README.md
         shell: bash
       - name: Upload artifacts
